@@ -8,7 +8,7 @@ import clsx from 'clsx';
  */
 import { createHigherOrderComponent, useInstanceId } from '@wordpress/compose';
 import { addFilter } from '@wordpress/hooks';
-import { getBlockSupport, hasBlockSupport } from '@wordpress/blocks';
+import { getBlockSupport, hasBlockSupport, getBlockDefaultClassName } from '@wordpress/blocks';
 import { useSelect } from '@wordpress/data';
 import {
 	Button,
@@ -63,12 +63,8 @@ export function useLayoutClasses( blockAttributes = {}, blockName = '' ) {
 	if ( LAYOUT_DEFINITIONS[ usedLayout?.type || 'default' ]?.className ) {
 		const baseClassName =
 			LAYOUT_DEFINITIONS[ usedLayout?.type || 'default' ]?.className;
-		const splitBlockName = blockName.split( '/' );
-		const fullBlockName =
-			splitBlockName[ 0 ] === 'core'
-				? splitBlockName.pop()
-				: splitBlockName.join( '-' );
-		const compoundClassName = `wp-block-${ fullBlockName }-${ baseClassName }`;
+		const fullBlockName = getBlockDefaultClassName( blockName );
+		const compoundClassName = `${ fullBlockName }-${ baseClassName }`;
 		layoutClassnames.push( baseClassName, compoundClassName );
 	}
 
