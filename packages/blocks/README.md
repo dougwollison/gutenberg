@@ -835,6 +835,7 @@ _Parameters_
 
 -   _blocks_ `Array|Object`: Blocks array or block object.
 -   _name_ `string`: Block name.
+-   _variation_ `?string`: Optional variation of new block type.
 
 _Returns_
 

@@ -14,6 +14,7 @@ import { createHooks, applyFilters } from '@wordpress/hooks';
 import {
 	getBlockType,
 	getBlockTypes,
+	getBlockVariations,
 	getGroupingBlockName,
 } from './registration';
 import {
@@ -454,12 +455,13 @@ function maybeCheckTransformIsMatch( transform, blocks ) {
 /**
  * Switch one or more blocks into one or more blocks of the new block type.
  *
- * @param {Array|Object} blocks Blocks array or block object.
- * @param {string}       name   Block name.
+ * @param {Array|Object} blocks    Blocks array or block object.
+ * @param {string}       name      Block name.
+ * @param {?string}      variation Optional variation of new block type.
  *
  * @return {?Array} Array of blocks or null.
  */
-export function switchToBlockType( blocks, name ) {
+export function switchToBlockType( blocks, name, variation ) {
 	const blocksArray = Array.isArray( blocks ) ? blocks : [ blocks ];
 	const isMultiBlock = blocksArray.length > 1;
 	const firstBlock = blocksArray[ 0 ];
@@ -550,6 +552,27 @@ export function switchToBlockType( blocks, name ) {
 	// the expected "destination" block type.
 	if ( ! hasSwitchedBlock ) {
 		return null;
+	}
+
+	// If a variation was specified, apply that variation's attributes to each resulting block
+	if ( variation ) {
+		const variationConfig = getBlockVariations( name ).find(
+			( config ) => config.name === variation
+		);
+
+		if ( variationConfig ) {
+			transformationResults = transformationResults.map(
+				( { attributes, ...result } ) => {
+					return {
+						...result,
+						attributes: {
+							...attributes,
+							...variationConfig.attributes,
+						},
+					};
+				}
+			);
+		}
 	}
 
 	const ret = transformationResults.map( ( result, index, results ) => {
