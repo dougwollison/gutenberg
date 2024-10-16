@@ -474,6 +474,7 @@ _Properties_
 -   _icon_ `string`: Dashicon for the item, as it appears in the inserter.
 -   _isDisabled_ `boolean`: Whether or not the user should be prevented from inserting this item.
 -   _frecency_ `number`: Heuristic that combines frequency and recency.
+-   _variation_ `?string`: The specific varaition for the block, if applicable.
 
 ### getClientIdsOfDescendants
 

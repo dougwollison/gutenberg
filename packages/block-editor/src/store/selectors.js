@@ -2219,6 +2219,7 @@ export const getInserterItems = createRegistrySelector( ( select ) =>
  * @property {boolean}         isDisabled   Whether or not the user should be prevented from inserting
  *                                          this item.
  * @property {number}          frecency     Heuristic that combines frequency and recency.
+ * @property {?string}         variation    The specific varaition for the block, if applicable.
  */
 export const getBlockTransformItems = createSelector(
 	( state, blocks, rootClientId = null ) => {
@@ -2244,6 +2245,23 @@ export const getBlockTransformItems = createSelector(
 		).reduce( ( accumulator, block ) => {
 			if ( itemsByName[ block?.name ] ) {
 				accumulator.push( itemsByName[ block.name ] );
+
+				// Get transform-scoped variations, add them as well
+				const blockType = getBlockType( block.name );
+				const transformVariations = getBlockVariations(
+					block.name,
+					'transform'
+				).filter( ( variation ) => ! variation.isDefault );
+				for ( const variation of transformVariations ) {
+					accumulator.push( {
+						...itemsByName[ block.name ],
+						title: variation.title,
+						// Use block icon if variation has none
+						icon: variation.icon ?? blockType.icon,
+						// Flag the variation to use when selected
+						variation: variation.name,
+					} );
+				}
 			}
 			return accumulator;
 		}, [] );
