@@ -2250,7 +2250,7 @@ export const getBlockTransformItems = createSelector(
 				const blockType = getBlockType( block.name );
 				const transformVariations = getBlockVariations(
 					block.name,
-					'transform'
+					'switcher'
 				).filter( ( variation ) => ! variation.isDefault );
 				for ( const variation of transformVariations ) {
 					accumulator.push( {
