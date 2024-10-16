@@ -87,8 +87,8 @@ export const useTransformCommands = () => {
 	}
 
 	// Simple block tranformation based on the `Block Transforms` API.
-	function onBlockTransform( name ) {
-		const newBlocks = switchToBlockType( blocks, name );
+	function onBlockTransform( name, variation ) {
+		const newBlocks = switchToBlockType( blocks, name, variation );
 		replaceBlocks( clientIds, newBlocks );
 		selectForMultipleBlocks( newBlocks );
 	}
@@ -110,14 +110,14 @@ export const useTransformCommands = () => {
 	}
 
 	const commands = possibleBlockTransformations.map( ( transformation ) => {
-		const { name, title, icon } = transformation;
+		const { name, variation, title, icon } = transformation;
 		return {
-			name: 'core/block-editor/transform-to-' + name.replace( '/', '-' ),
+			name: 'core/block-editor/transform-to-' + ( name + '/' + variation ).replace( '/', '-' ),
 			// translators: %s: block title/name.
 			label: sprintf( __( 'Transform to %s' ), title ),
 			icon: <BlockIcon icon={ icon } />,
 			callback: ( { close } ) => {
-				onBlockTransform( name );
+				onBlockTransform( name, variation );
 				close();
 			},
 		};
