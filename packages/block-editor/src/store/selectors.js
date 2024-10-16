@@ -2246,7 +2246,7 @@ export const getBlockTransformItems = createSelector(
 			if ( itemsByName[ block?.name ] ) {
 				accumulator.push( itemsByName[ block.name ] );
 
-				// Get transform-scoped variations, add them as well
+				// Get switcher-scoped variations, add them as well
 				const blockType = getBlockType( block.name );
 				const transformVariations = getBlockVariations(
 					block.name,
