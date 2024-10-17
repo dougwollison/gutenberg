@@ -112,7 +112,9 @@ export const useTransformCommands = () => {
 	const commands = possibleBlockTransformations.map( ( transformation ) => {
 		const { name, variation, title, icon } = transformation;
 		return {
-			name: 'core/block-editor/transform-to-' + ( name + '/' + variation ).replace( '/', '-' ),
+			name:
+				'core/block-editor/transform-to-' +
+				( name + '/' + variation ).replace( '/', '-' ),
 			// translators: %s: block title/name.
 			label: sprintf( __( 'Transform to %s' ), title ),
 			icon: <BlockIcon icon={ icon } />,
