@@ -3562,6 +3562,20 @@ describe( 'selectors', () => {
 						},
 					],
 				},
+				variations: [
+					{
+						name: 'variation-transform',
+						title: 'Transform Variation',
+						attributes: {},
+						scope: [ 'transform' ],
+					},
+					{
+						name: 'variation-switcher',
+						title: 'Switcher Variation',
+						attributes: {},
+						scope: [ 'switcher' ],
+					},
+				],
 			} );
 			registerBlockType( 'core/with-tranforms-b', {
 				category: 'text',
@@ -3621,11 +3635,12 @@ describe( 'selectors', () => {
 			expect( items ).toHaveLength( 2 );
 			const returnedProps = Object.keys( items[ 0 ] );
 			// Verify we have only the wanted props.
-			expect( returnedProps ).toHaveLength( 6 );
+			expect( returnedProps ).toHaveLength( 7 );
 			expect( returnedProps ).toEqual(
 				expect.arrayContaining( [
 					'id',
 					'name',
+					'variation',
 					'title',
 					'icon',
 					'frecency',
@@ -3780,10 +3795,15 @@ describe( 'selectors', () => {
 			};
 			const blocks = [ { name: 'core/with-tranforms-c' } ];
 			const items = getBlockTransformItems( state, blocks );
-			expect( items ).toHaveLength( 1 );
+			expect( items ).toHaveLength( 2 );
 			expect( items[ 0 ] ).toEqual(
 				expect.objectContaining( {
 					name: 'core/with-tranforms-a',
+					frecency: 2.5,
+				} ),
+				expect.objectContaining( {
+					name: 'core/with-tranforms-a',
+					variation: 'variation-switcher',
 					frecency: 2.5,
 				} )
 			);

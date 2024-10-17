@@ -2244,7 +2244,10 @@ export const getBlockTransformItems = createSelector(
 			normalizedBlocks
 		).reduce( ( accumulator, block ) => {
 			if ( itemsByName[ block?.name ] ) {
-				accumulator.push( itemsByName[ block.name ] );
+				accumulator.push( {
+					...itemsByName[ block.name ],
+					variation: null,
+				} );
 
 				// Get switcher-scoped variations, add them as well
 				const blockType = getBlockType( block.name );
